@@ -124,7 +124,7 @@ export default function App() {
   const getLangName = (lang: any) => uiLang === 'zh' && lang.nameZh ? lang.nameZh : lang.name;
 
   return (
-    <div className="min-h-screen font-sans selection:bg-blue-300/40 dark:selection:bg-blue-500/40 flex flex-col items-center">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 text-gray-900 dark:text-gray-100 font-sans selection:bg-blue-300/40 dark:selection:bg-blue-500/40 transition-colors duration-500 flex flex-col items-center">
       
       {/* Dynamic Ambient Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-transparent flex justify-center items-center">
