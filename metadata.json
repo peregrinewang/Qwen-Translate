@@ -1,0 +1,5 @@
+{
+  "name": "Qwen Translate",
+  "description": "A glassmorphism-styled translation app powered by Qwen-MT.",
+  "requestFramePermissions": []
+}
