@@ -78,7 +78,7 @@ export const SettingsModal = memo(function SettingsModal({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/25 dark:bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/25 dark:bg-black/50 z-40"
           />
 
           {/* Modal */}

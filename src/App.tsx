@@ -11,17 +11,9 @@ import { i18n } from './lib/i18n';
 
 const BackgroundBlobs = memo(function BackgroundBlobs() {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-transparent flex justify-center items-center">
-      <motion.div
-        animate={{ x: [0, 30, -20, 0], y: [0, -40, 20, 0] }}
-        transition={{ duration: 15, ease: 'easeInOut', repeat: Infinity }}
-        className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-500/15 dark:bg-blue-600/10 blur-[100px] md:blur-[140px] transform-gpu will-change-transform"
-      />
-      <motion.div
-        animate={{ x: [0, -30, 20, 0], y: [0, 40, -10, 0] }}
-        transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
-        className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-[100px] md:blur-[140px] transform-gpu will-change-transform"
-      />
+    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+      <div className="absolute top-[0%] left-[0%] w-[65vw] h-[65vw] -translate-x-1/4 -translate-y-1/4 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12)_0%,transparent_65%)] dark:bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.08)_0%,transparent_65%)] animate-[blob-drift-1_20s_ease-in-out_infinite]" />
+      <div className="absolute bottom-[0%] right-[0%] w-[70vw] h-[70vw] translate-x-1/4 translate-y-1/4 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.15)_0%,transparent_65%)] dark:bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.08)_0%,transparent_65%)] animate-[blob-drift-2_24s_ease-in-out_infinite]" />
     </div>
   );
 });
@@ -287,7 +279,7 @@ export default function App() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setInputText('')}
-                      className="absolute bottom-5 right-5 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-white/50 hover:bg-white dark:bg-black/20 dark:hover:bg-black/50 rounded-xl shadow-sm backdrop-blur-md transition-colors flex items-center opacity-0 group-hover:opacity-100"
+                      className="absolute bottom-5 right-5 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-white/70 hover:bg-white dark:bg-black/30 dark:hover:bg-black/50 rounded-xl shadow-sm transition-colors flex items-center opacity-0 group-hover:opacity-100"
                     >
                       <X className="w-4 h-4" />
                       <span className="text-xs font-medium px-1.5">{t.clear}</span>

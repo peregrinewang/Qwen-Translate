@@ -12,10 +12,10 @@
   --brand-primary-hover: #2563eb; /* blue-600 */
 
   /* Glassmorphism Light Tokens */
-  --glass-surface: rgba(255, 255, 255, 0.55);
-  --glass-surface-hover: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-border-subtle: rgba(255, 255, 255, 0.4);
+  --glass-surface: rgba(255, 255, 255, 0.82);
+  --glass-surface-hover: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.90);
+  --glass-border-subtle: rgba(255, 255, 255, 0.5);
   
   /* Shadow & Highlights (The WOW factor) */
   --glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08), 0 20px 25px -5px rgba(0, 0, 0, 0.04);
@@ -32,10 +32,10 @@
   --brand-primary-hover: #60a5fa; /* blue-400 for better visibility */
 
   /* Glassmorphism Dark Tokens */
-  --glass-surface: rgba(20, 20, 25, 0.45);
-  --glass-surface-hover: rgba(35, 35, 45, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-surface: rgba(20, 20, 30, 0.78);
+  --glass-surface-hover: rgba(30, 30, 42, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-border-subtle: rgba(255, 255, 255, 0.08);
 
   /* Deep shadows for dark mode */
   --glass-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 10px 25px -5px rgba(0, 0, 0, 0.3);
@@ -64,19 +64,14 @@
 }
 
 /* ==========================================================================
-   Vellum 2.0 (Premium Glassmorphism)
+   Vellum 2.0 (Lightweight Premium — zero GPU blur)
    ========================================================================== */
 .vellum {
-  isolation: isolate;
   background: var(--glass-surface);
-  backdrop-filter: blur(28px) saturate(150%);
-  -webkit-backdrop-filter: blur(28px) saturate(150%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow), var(--glass-shadow-inner);
   border-radius: 1.5rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, backdrop-filter;
-  transform: translateZ(0);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .vellum:hover {
@@ -85,62 +80,50 @@
 
 /* Vellum variant for small UI elements like Selects */
 .vellum-sm {
-  isolation: isolate;
   background: var(--glass-surface);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid var(--glass-border);
   box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05), var(--glass-shadow-inner);
   border-radius: 0.75rem;
-  transition: all 0.3s ease;
-  will-change: transform, backdrop-filter;
-  transform: translateZ(0);
+  transition: background 0.2s ease;
 }
 
 .vellum-sm:hover {
   background: var(--glass-surface-hover);
 }
 
-select option {
-  padding: 10px 12px;
-  margin: 4px 0;
-}
-
-/* Noise overlay for organic texture */
-.vellum::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: var(--glass-noise-opacity);
-  mix-blend-mode: var(--glass-noise-blend);
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  border-radius: inherit;
-  z-index: -1;
-  transition: opacity 0.4s ease;
-}
-
 /* Premium Glow Button Utility */
 .glow-btn {
   position: relative;
   z-index: 1;
-  will-change: transform;
-  transform: translateZ(0);
 }
 .glow-btn::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -4px;
   border-radius: inherit;
   background: var(--brand-primary);
-  filter: blur(12px);
   opacity: 0;
   z-index: -1;
   transition: opacity 0.3s ease;
 }
 .glow-btn:hover::before {
-  opacity: 0.5;
+  opacity: 0.15;
 }
 .glow-btn:active::before {
-  opacity: 0.2;
+  opacity: 0.08;
+}
+
+/* ==========================================================================
+   Background Blob Drift Animations (pure CSS — zero JS overhead)
+   ========================================================================== */
+@keyframes blob-drift-1 {
+  0%, 100% { transform: translate(-25%, -25%) translate(0, 0); }
+  33%      { transform: translate(-25%, -25%) translate(30px, -40px); }
+  66%      { transform: translate(-25%, -25%) translate(-20px, 20px); }
+}
+
+@keyframes blob-drift-2 {
+  0%, 100% { transform: translate(25%, 25%) translate(0, 0); }
+  33%      { transform: translate(25%, 25%) translate(-30px, 40px); }
+  66%      { transform: translate(25%, 25%) translate(20px, -10px); }
 }
