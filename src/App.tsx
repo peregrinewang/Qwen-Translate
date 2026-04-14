@@ -155,12 +155,12 @@ export default function App() {
         {/* ── Header ── */}
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <motion.div 
+            <motion.img 
               whileHover={{ rotate: 5, scale: 1.05 }}
-              className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/30 flex items-center justify-center text-white font-bold text-2xl uppercase"
-            >
-              Q
-            </motion.div>
+              src="https://img.alicdn.com/imgextra/i2/O1CN01B9mlGG1msAz3fxxWL_!!6000000005009-2-tps-84-84.png"
+              alt="Qwen Logo"
+              className="w-11 h-11 rounded-2xl shadow-lg shadow-blue-500/20 object-cover"
+            />
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-800 dark:text-gray-100 flex items-center">
               {t.title}
             </h1>

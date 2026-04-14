@@ -6,3 +6,4 @@ coverage/
 *.log
 .env*
 !.env.example
+materials/下载.png
