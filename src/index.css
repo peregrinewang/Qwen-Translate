@@ -9,7 +9,6 @@
 
 /* Vellum Paper Texture */
 .vellum {
-  position: relative;
   isolation: isolate;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(24px) saturate(150%);

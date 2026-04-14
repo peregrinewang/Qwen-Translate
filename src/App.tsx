@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Settings, History, ArrowRightLeft, Copy, Check, AlertCircle, Loader2, X, Sun, Moon, Languages } from 'lucide-react';
 import { motion } from 'motion/react';
 import { languages } from './lib/languages';
 import { translateText, Term, Tm } from './lib/qwen-api';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { useDebounce } from './hooks/useDebounce';
 import { SettingsModal } from './components/SettingsModal';
 import { HistorySidebar, HistoryItem } from './components/HistorySidebar';
 import { i18n } from './lib/i18n';
@@ -33,9 +32,6 @@ export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
-  const debouncedInput = useDebounce(inputText, 800);
-  const lastTranslatedInput = useRef('');
-
   useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -44,58 +40,50 @@ export default function App() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    const performTranslation = async () => {
-      if (!debouncedInput.trim()) {
-        setOutputText('');
-        setError(null);
-        return;
-      }
+  const handleTranslate = async () => {
+    const text = inputText.trim();
 
-      if (debouncedInput === lastTranslatedInput.current) {
-        return;
-      }
-
-      if (!apiKey) {
-        setError(t.apiMissing);
-        setIsSettingsOpen(true);
-        return;
-      }
-
-      setIsTranslating(true);
+    if (!text) {
+      setOutputText('');
       setError(null);
+      return;
+    }
 
-      try {
-        const result = await translateText(
-          debouncedInput, 
-          sourceLang, 
-          targetLang, 
-          apiKey, 
-          model,
-          { terms, tmList, domainPrompt }
-        );
-        setOutputText(result);
-        lastTranslatedInput.current = debouncedInput;
+    if (!apiKey) {
+      setError(t.apiMissing);
+      setIsSettingsOpen(true);
+      return;
+    }
 
-        // Add to history
-        const newHistoryItem: HistoryItem = {
-          id: Date.now().toString(),
-          sourceLang,
-          targetLang,
-          inputText: debouncedInput,
-          outputText: result,
-          timestamp: Date.now(),
-        };
-        setHistory((prev) => [newHistoryItem, ...prev].slice(0, 50)); // Keep last 50
-      } catch (err) {
-        setError(err instanceof Error ? err.message : t.translationFailed);
-      } finally {
-        setIsTranslating(false);
-      }
-    };
+    setIsTranslating(true);
+    setError(null);
 
-    performTranslation();
-  }, [debouncedInput, sourceLang, targetLang, apiKey, model, terms, tmList, domainPrompt, setHistory, t]);
+    try {
+      const result = await translateText(
+        text,
+        sourceLang,
+        targetLang,
+        apiKey,
+        model,
+        { terms, tmList, domainPrompt }
+      );
+      setOutputText(result);
+
+      const newHistoryItem: HistoryItem = {
+        id: Date.now().toString(),
+        sourceLang,
+        targetLang,
+        inputText: text,
+        outputText: result,
+        timestamp: Date.now(),
+      };
+      setHistory((prev) => [newHistoryItem, ...prev].slice(0, 50));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t.translationFailed);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
 
   const handleSwapLanguages = () => {
     if (sourceLang === 'auto') {
@@ -108,7 +96,6 @@ export default function App() {
     }
     setInputText(outputText);
     setOutputText(inputText);
-    lastTranslatedInput.current = ''; // Force re-translate if needed
   };
 
   const handleCopy = async () => {
@@ -127,7 +114,6 @@ export default function App() {
     setTargetLang(item.targetLang);
     setInputText(item.inputText);
     setOutputText(item.outputText);
-    lastTranslatedInput.current = item.inputText;
     setIsHistoryOpen(false);
   };
 
@@ -184,7 +170,7 @@ export default function App() {
 
         {/* Main Translator UI */}
         <main className="flex-1 flex flex-col">
-          <div className="vellum flex flex-col overflow-hidden">
+          <div className="vellum relative flex flex-col overflow-hidden">
             
             {/* Language Selectors Bar */}
             <div className="flex items-center justify-between p-2 border-b border-black/5 dark:border-white/10 bg-white/20 dark:bg-black/20">
@@ -223,6 +209,17 @@ export default function App() {
                   ))}
                 </select>
               </div>
+            </div>
+
+            <div className="flex justify-end px-4 py-3 border-b border-black/5 dark:border-white/10 bg-white/10 dark:bg-black/10">
+              <button
+                onClick={handleTranslate}
+                disabled={isTranslating || !inputText.trim()}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400/70 disabled:cursor-not-allowed text-white font-medium rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95"
+              >
+                {isTranslating && <Loader2 className="w-4 h-4 animate-spin" />}
+                <span>{isTranslating ? t.translating : t.translate}</span>
+              </button>
             </div>
 
             {/* Error Banner */}
