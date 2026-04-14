@@ -285,7 +285,7 @@ export default function App() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setInputText('')}
-                      className="absolute top-5 right-5 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-white/50 hover:bg-white dark:bg-black/20 dark:hover:bg-black/50 rounded-xl shadow-sm backdrop-blur-md transition-colors flex items-center opacity-0 group-hover:opacity-100"
+                      className="absolute bottom-5 right-5 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-white/50 hover:bg-white dark:bg-black/20 dark:hover:bg-black/50 rounded-xl shadow-sm backdrop-blur-md transition-colors flex items-center opacity-0 group-hover:opacity-100"
                     >
                       <X className="w-4 h-4" />
                       <span className="text-xs font-medium px-1.5">{t.clear}</span>
