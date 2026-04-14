@@ -10,6 +10,10 @@ interface SettingsModalProps {
   setApiKey: (key: string) => void;
   model: string;
   setModel: (model: string) => void;
+  endpoint: string;
+  setEndpoint: (endpoint: string) => void;
+  customEndpoint: string;
+  setCustomEndpoint: (url: string) => void;
   terms: Term[];
   setTerms: (terms: Term[]) => void;
   tmList: Tm[];
@@ -23,6 +27,7 @@ type Tab = 'general' | 'glossary' | 'memory' | 'domain';
 
 export function SettingsModal({
   isOpen, onClose, apiKey, setApiKey, model, setModel,
+  endpoint, setEndpoint, customEndpoint, setCustomEndpoint,
   terms, setTerms, tmList, setTmList, domainPrompt, setDomainPrompt, t
 }: SettingsModalProps) {
   const [activeTab, setActiveTab] = useState<Tab>('general');
@@ -81,7 +86,7 @@ export function SettingsModal({
               ))}
             </div>
 
-            <div className="overflow-y-auto flex-1 pr-2 space-y-5 min-h-[300px]">
+            <div className="overflow-y-auto flex-1 px-1.5 pt-1 space-y-5 min-h-[300px]">
               {activeTab === 'general' && (
                 <div className="space-y-5">
                   <div>
@@ -113,6 +118,30 @@ export function SettingsModal({
                       <option value="qwen-mt-plus">{t.modelPlus}</option>
                       <option value="qwen-mt-lite">{t.modelLite}</option>
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+                      {t.endpointLabel}
+                    </label>
+                    <select
+                      value={endpoint}
+                      onChange={(e) => setEndpoint(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all appearance-none text-gray-900 dark:text-gray-100 mb-2"
+                    >
+                      <option value="https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions">{t.endpointIntl}</option>
+                      <option value="https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions">{t.endpointDom}</option>
+                      <option value="custom">{t.endpointCustom}</option>
+                    </select>
+                    {endpoint === 'custom' && (
+                      <input
+                        type="text"
+                        value={customEndpoint}
+                        onChange={(e) => setCustomEndpoint(e.target.value)}
+                        placeholder={t.endpointCustomPlaceholder}
+                        className="w-full px-4 py-2.5 bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-gray-900 dark:text-gray-100 mt-2"
+                      />
+                    )}
                   </div>
                 </div>
               )}

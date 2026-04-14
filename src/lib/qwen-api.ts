@@ -22,6 +22,7 @@ export async function translateText(
   targetLang: string,
   apiKey: string,
   model: string = 'qwen-mt-flash',
+  endpoint: string = 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',
   advancedOptions?: { terms?: Term[]; tmList?: Tm[]; domainPrompt?: string }
 ): Promise<string> {
   if (!text.trim()) return '';
@@ -46,7 +47,7 @@ export async function translateText(
     translation_options.domains = advancedOptions.domainPrompt.trim();
   }
 
-  const response = await fetch('https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions', {
+  const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,

@@ -17,6 +17,8 @@ export default function App() {
   const [targetLang, setTargetLang] = useLocalStorage('qwen_target_lang', 'en');
   const [apiKey, setApiKey] = useLocalStorage('qwen_api_key', '');
   const [model, setModel] = useLocalStorage('qwen_model', 'qwen-mt-flash');
+  const [endpoint, setEndpoint] = useLocalStorage('qwen_endpoint', 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions');
+  const [customEndpoint, setCustomEndpoint] = useLocalStorage('qwen_custom_endpoint', '');
   const [history, setHistory] = useLocalStorage<HistoryItem[]>('qwen_history', []);
 
   const [terms, setTerms] = useLocalStorage<Term[]>('qwen_terms', []);
@@ -59,12 +61,14 @@ export default function App() {
     setError(null);
 
     try {
+      const targetEndpoint = endpoint === 'custom' ? customEndpoint : endpoint;
       const result = await translateText(
         text,
         sourceLang,
         targetLang,
         apiKey,
         model,
+        targetEndpoint,
         { terms, tmList, domainPrompt }
       );
       setOutputText(result);
@@ -293,6 +297,10 @@ export default function App() {
         setApiKey={setApiKey}
         model={model}
         setModel={setModel}
+        endpoint={endpoint}
+        setEndpoint={setEndpoint}
+        customEndpoint={customEndpoint}
+        setCustomEndpoint={setCustomEndpoint}
         terms={terms}
         setTerms={setTerms}
         tmList={tmList}
