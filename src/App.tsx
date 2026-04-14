@@ -182,7 +182,7 @@ export default function App() {
 
         {/* ── Main Translator Interface ── */}
         <main className="w-full flex-1 flex flex-col">
-          <div className="vellum flex flex-col overflow-hidden">
+          <div className="vellum relative flex flex-col overflow-hidden">
             
             {/* Language Selectors Bar */}
             <div className="flex items-center justify-between px-3 py-2.5 border-b border-black/[0.04] dark:border-white/[0.08] bg-white/[0.15] dark:bg-black/[0.15]">
