@@ -75,10 +75,35 @@
   box-shadow: var(--glass-shadow), var(--glass-shadow-inner);
   border-radius: 1.5rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, backdrop-filter;
+  transform: translateZ(0);
 }
 
 .vellum:hover {
   background: var(--glass-surface-hover);
+}
+
+/* Vellum variant for small UI elements like Selects */
+.vellum-sm {
+  isolation: isolate;
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05), var(--glass-shadow-inner);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  will-change: transform, backdrop-filter;
+  transform: translateZ(0);
+}
+
+.vellum-sm:hover {
+  background: var(--glass-surface-hover);
+}
+
+select option {
+  padding: 10px 12px;
+  margin: 4px 0;
 }
 
 /* Noise overlay for organic texture */
@@ -99,6 +124,8 @@
 .glow-btn {
   position: relative;
   z-index: 1;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .glow-btn::before {
   content: '';

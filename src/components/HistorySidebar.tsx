@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { X, Trash2, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { languages } from '../lib/languages';
@@ -22,7 +22,7 @@ interface HistorySidebarProps {
   uiLang: 'en' | 'zh';
 }
 
-export function HistorySidebar({ isOpen, onClose, history, onClear, onRestore, t, uiLang }: HistorySidebarProps) {
+export const HistorySidebar = memo(function HistorySidebar({ isOpen, onClose, history, onClear, onRestore, t, uiLang }: HistorySidebarProps) {
   const getLangName = (code: string) => {
     const lang = languages.find(l => l.code === code);
     if (!lang) return code;
@@ -98,4 +98,4 @@ export function HistorySidebar({ isOpen, onClose, history, onClear, onRestore, t
       )}
     </AnimatePresence>
   );
-}
+});

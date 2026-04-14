@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { X, Plus, Trash2, Settings2, BookOpen, Brain, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Term, Tm } from '../lib/qwen-api';
+import { VellumSelect } from './VellumSelect';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ const tabMeta: Record<Tab, { icon: React.ElementType }> = {
   domain:   { icon: Globe },
 };
 
-export function SettingsModal({
+export const SettingsModal = memo(function SettingsModal({
   isOpen, onClose, apiKey, setApiKey, model, setModel,
   endpoint, setEndpoint, customEndpoint, setCustomEndpoint,
   terms, setTerms, tmList, setTmList, domainPrompt, setDomainPrompt, t
@@ -166,15 +167,17 @@ export function SettingsModal({
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                           {t.modelLabel}
                         </label>
-                        <select
+                        <VellumSelect
                           value={model}
-                          onChange={(e) => setModel(e.target.value)}
-                          className={inputCls + ' appearance-none cursor-pointer'}
-                        >
-                          <option value="qwen-mt-flash">{t.modelFlash}</option>
-                          <option value="qwen-mt-plus">{t.modelPlus}</option>
-                          <option value="qwen-mt-lite">{t.modelLite}</option>
-                        </select>
+                          onChange={setModel}
+                          className="w-full"
+                          buttonClassName={inputCls}
+                          options={[
+                            { value: 'qwen-mt-flash', label: t.modelFlash },
+                            { value: 'qwen-mt-plus', label: t.modelPlus },
+                            { value: 'qwen-mt-lite', label: t.modelLite }
+                          ]}
+                        />
                       </div>
 
                       {/* Endpoint */}
@@ -182,15 +185,17 @@ export function SettingsModal({
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                           {t.endpointLabel}
                         </label>
-                        <select
+                        <VellumSelect
                           value={endpoint}
-                          onChange={(e) => setEndpoint(e.target.value)}
-                          className={inputCls + ' appearance-none cursor-pointer'}
-                        >
-                          <option value="https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions">{t.endpointIntl}</option>
-                          <option value="https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions">{t.endpointDom}</option>
-                          <option value="custom">{t.endpointCustom}</option>
-                        </select>
+                          onChange={setEndpoint}
+                          className="w-full"
+                          buttonClassName={inputCls}
+                          options={[
+                            { value: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions', label: t.endpointIntl },
+                            { value: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', label: t.endpointDom },
+                            { value: 'custom', label: t.endpointCustom }
+                          ]}
+                        />
                         {endpoint === 'custom' && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
@@ -376,4 +381,4 @@ export function SettingsModal({
       )}
     </AnimatePresence>
   );
-}
+});

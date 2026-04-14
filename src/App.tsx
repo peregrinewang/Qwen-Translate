@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import { Settings, History, ArrowRightLeft, Copy, Check, AlertCircle, Loader2, X, Sun, Moon, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { languages } from './lib/languages';
@@ -6,7 +6,25 @@ import { translateText, Term, Tm } from './lib/qwen-api';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { SettingsModal } from './components/SettingsModal';
 import { HistorySidebar, HistoryItem } from './components/HistorySidebar';
+import { VellumSelect } from './components/VellumSelect';
 import { i18n } from './lib/i18n';
+
+const BackgroundBlobs = memo(function BackgroundBlobs() {
+  return (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-transparent flex justify-center items-center">
+      <motion.div
+        animate={{ x: [0, 30, -20, 0], y: [0, -40, 20, 0] }}
+        transition={{ duration: 15, ease: 'easeInOut', repeat: Infinity }}
+        className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-500/15 dark:bg-blue-600/10 blur-[100px] md:blur-[140px] transform-gpu will-change-transform"
+      />
+      <motion.div
+        animate={{ x: [0, -30, 20, 0], y: [0, 40, -10, 0] }}
+        transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
+        className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-[100px] md:blur-[140px] transform-gpu will-change-transform"
+      />
+    </div>
+  );
+});
 
 export default function App() {
   const [uiLang, setUiLang] = useLocalStorage<'en' | 'zh'>('qwen_ui_lang', 'en');
@@ -113,32 +131,24 @@ export default function App() {
     }
   };
 
-  const handleRestoreHistory = (item: HistoryItem) => {
+  const handleRestoreHistory = useCallback((item: HistoryItem) => {
     setSourceLang(item.sourceLang);
     setTargetLang(item.targetLang);
     setInputText(item.inputText);
     setOutputText(item.outputText);
     setIsHistoryOpen(false);
-  };
+  }, [setSourceLang, setTargetLang, setInputText, setOutputText]);
+
+  const closeSettings = useCallback(() => setIsSettingsOpen(false), []);
+  const closeHistory = useCallback(() => setIsHistoryOpen(false), []);
+  const clearHistory = useCallback(() => setHistory([]), [setHistory]);
 
   const getLangName = (lang: any) => uiLang === 'zh' && lang.nameZh ? lang.nameZh : lang.name;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 text-gray-900 dark:text-gray-100 font-sans selection:bg-blue-300/40 dark:selection:bg-blue-500/40 transition-colors duration-500 flex flex-col items-center">
       
-      {/* Dynamic Ambient Background Blobs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-transparent flex justify-center items-center">
-        <motion.div
-          animate={{ x: [0, 30, -20, 0], y: [0, -40, 20, 0] }}
-          transition={{ duration: 15, ease: 'easeInOut', repeat: Infinity }}
-          className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-blue-500/15 dark:bg-blue-600/10 blur-[100px] md:blur-[140px]"
-        />
-        <motion.div
-          animate={{ x: [0, -30, 20, 0], y: [0, 40, -10, 0] }}
-          transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
-          className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-cyan-400/20 dark:bg-cyan-500/10 blur-[100px] md:blur-[140px]"
-        />
-      </div>
+      <BackgroundBlobs />
 
       <div className="relative w-full max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col flex-1">
         
@@ -187,17 +197,13 @@ export default function App() {
             {/* Language Selectors Bar */}
             <div className="flex items-center justify-between px-3 py-2.5 border-b border-black/[0.04] dark:border-white/[0.08] bg-white/[0.15] dark:bg-black/[0.15]">
               <div className="flex-1 flex justify-center">
-                <select
+                <VellumSelect
                   value={sourceLang}
-                  onChange={(e) => setSourceLang(e.target.value)}
-                  className="bg-transparent text-gray-800 dark:text-gray-200 font-medium px-4 py-2.5 rounded-xl hover:bg-black/[0.03] dark:hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-blue-500/30 appearance-none cursor-pointer text-center w-full max-w-[220px] transition-colors"
-                >
-                  {languages.map((lang) => (
-                    <option key={`src-${lang.code}`} value={lang.code} className="text-gray-900 bg-white dark:bg-gray-800">
-                      {getLangName(lang)}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setSourceLang(val)}
+                  className="w-full max-w-[220px]"
+                  buttonClassName="bg-transparent text-gray-800 dark:text-gray-200 px-4 py-2.5 text-center"
+                  options={languages.map((lang) => ({ value: lang.code, label: getLangName(lang) }))}
+                />
               </div>
 
               <motion.button
@@ -212,17 +218,13 @@ export default function App() {
               </motion.button>
 
               <div className="flex-1 flex justify-center">
-                <select
+                <VellumSelect
                   value={targetLang}
-                  onChange={(e) => setTargetLang(e.target.value)}
-                  className="bg-transparent text-gray-800 dark:text-gray-200 font-medium px-4 py-2.5 rounded-xl hover:bg-black/[0.03] dark:hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-blue-500/30 appearance-none cursor-pointer text-center w-full max-w-[220px] transition-colors"
-                >
-                  {languages.filter(l => l.code !== 'auto').map((lang) => (
-                    <option key={`tgt-${lang.code}`} value={lang.code} className="text-gray-900 bg-white dark:bg-gray-800">
-                      {getLangName(lang)}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setTargetLang(val)}
+                  className="w-full max-w-[220px]"
+                  buttonClassName="bg-transparent text-gray-800 dark:text-gray-200 px-4 py-2.5 text-center"
+                  options={languages.filter(l => l.code !== 'auto').map((lang) => ({ value: lang.code, label: getLangName(lang) }))}
+                />
               </div>
             </div>
 
@@ -352,7 +354,7 @@ export default function App() {
 
       <SettingsModal
         isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
+        onClose={closeSettings}
         apiKey={apiKey}
         setApiKey={setApiKey}
         model={model}
@@ -372,9 +374,9 @@ export default function App() {
 
       <HistorySidebar
         isOpen={isHistoryOpen}
-        onClose={() => setIsHistoryOpen(false)}
+        onClose={closeHistory}
         history={history}
-        onClear={() => setHistory([])}
+        onClear={clearHistory}
         onRestore={handleRestoreHistory}
         t={t}
         uiLang={uiLang}
