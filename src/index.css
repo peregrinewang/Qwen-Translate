@@ -3,119 +3,43 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ==========================================================================
-   Design Tokens & Color Management
-   ========================================================================== */
 :root {
-  /* Brand Tokens */
-  --brand-primary: #3b82f6;       /* blue-500 */
-  --brand-primary-hover: #2563eb; /* blue-600 */
-
-  /* Glassmorphism Light Tokens */
-  --glass-surface: rgba(255, 255, 255, 0.82);
-  --glass-surface-hover: rgba(255, 255, 255, 0.92);
-  --glass-border: rgba(255, 255, 255, 0.90);
-  --glass-border-subtle: rgba(255, 255, 255, 0.5);
-  
-  /* Shadow & Highlights (The WOW factor) */
-  --glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08), 0 20px 25px -5px rgba(0, 0, 0, 0.04);
-  /* Inner shadow creating a 3D bevel effect */
-  --glass-shadow-inner: inset 0 1px 1px rgba(255, 255, 255, 0.95), inset 1px 0 1px rgba(255, 255, 255, 0.5);
-  
-  --glass-noise-opacity: 0.25;
-  --glass-noise-blend: multiply;
+  --brutal-shadow-x: 4px;
+  --brutal-shadow-y: 4px;
+  --brutal-border-w: 2px;
+  --brutal-color: #000;
+  --brutal-shadow-color: rgba(0,0,0,1);
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
 }
 
 .dark {
-  /* Brand Tokens for Dark Mode */
-  --brand-primary: #3b82f6; 
-  --brand-primary-hover: #60a5fa; /* blue-400 for better visibility */
-
-  /* Glassmorphism Dark Tokens */
-  --glass-surface: rgba(20, 20, 30, 0.78);
-  --glass-surface-hover: rgba(30, 30, 42, 0.88);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-border-subtle: rgba(255, 255, 255, 0.08);
-
-  /* Deep shadows for dark mode */
-  --glass-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  /* Subtle inner light reflection */
-  --glass-shadow-inner: inset 0 1px 1px rgba(255, 255, 255, 0.15), inset 1px 0 1px rgba(255, 255, 255, 0.08);
-
-  --glass-noise-opacity: 0.15;
-  --glass-noise-blend: overlay;
+  --brutal-color: #fff;
+  --brutal-shadow-color: rgba(255,255,255,1);
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
 }
 
-/* Map CSS variables to Tailwind v4 theme */
 @theme {
   --font-sans: "Google Sans", "Product Sans", "Inter", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
-  
-  /* Expose custom tokens to Tailwind classes */
-  --color-brand: var(--brand-primary);
-  --color-brand-hover: var(--brand-primary-hover);
-  
-  --color-glass-surface: var(--glass-surface);
-  --color-glass-surface-hover: var(--glass-surface-hover);
-  --color-glass-border: var(--glass-border);
-  --color-glass-border-subtle: var(--glass-border-subtle);
-
-  --shadow-glass: var(--glass-shadow);
-  --shadow-glass-inner: var(--glass-shadow-inner);
 }
 
-/* ==========================================================================
-   Vellum 2.0 (Lightweight Premium — zero GPU blur)
-   ========================================================================== */
-.vellum {
-  background: var(--glass-surface);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow), var(--glass-shadow-inner);
-  border-radius: 1.5rem;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+.brutal-panel {
+  border: var(--brutal-border-w) solid var(--brutal-color);
+  box-shadow: var(--brutal-shadow-x) var(--brutal-shadow-y) 0 0 var(--brutal-shadow-color);
 }
 
-.vellum:hover {
-  background: var(--glass-surface-hover);
+.brutal-btn {
+  border: 2px solid var(--brutal-color);
+  box-shadow: 3px 3px 0 0 var(--brutal-shadow-color);
+  transition: all 0.08s ease;
 }
 
-/* Vellum variant for small UI elements like Selects */
-.vellum-sm {
-  background: var(--glass-surface);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05), var(--glass-shadow-inner);
-  border-radius: 0.75rem;
-  transition: background 0.2s ease;
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--brutal-shadow-color);
 }
 
-.vellum-sm:hover {
-  background: var(--glass-surface-hover);
-}
-
-/* Premium Glow Button Utility */
-.glow-btn {
-  position: relative;
-  z-index: 1;
-}
-.glow-btn::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: inherit;
-  background: var(--brand-primary);
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.3s ease;
-}
-.glow-btn:hover::before {
-  opacity: 0.15;
-}
-.glow-btn:active::before {
-  opacity: 0.08;
-}
-
-/* ==========================================================================
-   Background Blob Drift Animations (pure CSS — zero JS overhead)
-   ========================================================================== */
 @keyframes blob-drift-1 {
   0%, 100% { transform: translate(-25%, -25%) translate(0, 0); }
   33%      { transform: translate(-25%, -25%) translate(30px, -40px); }

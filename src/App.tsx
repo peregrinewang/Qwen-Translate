@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Settings, History, ArrowRightLeft, Copy, Check, AlertCircle, Loader2, X, Sun, Moon, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { languages } from './lib/languages';
@@ -9,14 +9,7 @@ import { HistorySidebar, HistoryItem } from './components/HistorySidebar';
 import { VellumSelect } from './components/VellumSelect';
 import { i18n } from './lib/i18n';
 
-const BackgroundBlobs = memo(function BackgroundBlobs() {
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-      <div className="absolute top-[0%] left-[0%] w-[65vw] h-[65vw] -translate-x-1/4 -translate-y-1/4 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12)_0%,transparent_65%)] dark:bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.08)_0%,transparent_65%)] animate-[blob-drift-1_20s_ease-in-out_infinite]" />
-      <div className="absolute bottom-[0%] right-[0%] w-[70vw] h-[70vw] translate-x-1/4 translate-y-1/4 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.15)_0%,transparent_65%)] dark:bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.08)_0%,transparent_65%)] animate-[blob-drift-2_24s_ease-in-out_infinite]" />
-    </div>
-  );
-});
+
 
 export default function App() {
   const [uiLang, setUiLang] = useLocalStorage<'en' | 'zh'>('qwen_ui_lang', 'en');
@@ -138,20 +131,18 @@ export default function App() {
   const getLangName = (lang: any) => uiLang === 'zh' && lang.nameZh ? lang.nameZh : lang.name;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 text-gray-900 dark:text-gray-100 font-sans selection:bg-blue-300/40 dark:selection:bg-blue-500/40 transition-colors duration-500 flex flex-col items-center">
-      
-      <BackgroundBlobs />
+    <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100 font-sans selection:bg-blue-300/40 dark:selection:bg-blue-500/40 transition-colors duration-500 flex flex-col items-center">
 
       <div className="relative w-full max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col flex-1">
         
         {/* ── Header ── */}
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <motion.img 
-              whileHover={{ rotate: 5, scale: 1.05 }}
+            <motion.img
+              whileHover={{ rotate: 3 }}
               src="https://img.alicdn.com/imgextra/i2/O1CN01B9mlGG1msAz3fxxWL_!!6000000005009-2-tps-84-84.png"
               alt="Qwen Logo"
-              className="w-11 h-11 rounded-2xl shadow-lg shadow-blue-500/20 object-cover"
+              className="w-11 h-11 border-2 border-black dark:border-white object-cover"
             />
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-800 dark:text-gray-100 flex items-center">
               {t.title}
@@ -172,7 +163,7 @@ export default function App() {
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.92 }}
                   onClick={btn.onClick}
-                  className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors flex items-center justify-center shrink-0"
+                  className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors flex items-center justify-center shrink-0"
                   title={btn.title}
                 >
                   <Icon className="w-[22px] h-[22px]" />
@@ -184,10 +175,10 @@ export default function App() {
 
         {/* ── Main Translator Interface ── */}
         <main className="w-full flex-1 flex flex-col">
-          <div className="vellum relative flex flex-col overflow-hidden">
+          <div className="brutal-panel relative flex flex-col">
             
             {/* Language Selectors Bar */}
-            <div className="flex items-center justify-between px-3 py-2.5 border-b border-black/[0.04] dark:border-white/[0.08] bg-white/[0.15] dark:bg-black/[0.15]">
+            <div className="flex items-center justify-between px-3 py-2.5 border-b-2 border-black dark:border-white bg-white dark:bg-black">
               <div className="flex-1 flex justify-center">
                 <VellumSelect
                   value={sourceLang}
@@ -203,7 +194,7 @@ export default function App() {
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: 'spring', damping: 15 }}
                 onClick={handleSwapLanguages}
-                className="p-2 text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 rounded-full transition-colors mx-3 shrink-0"
+                className="p-2 text-blue-600 dark:text-blue-400 bg-blue-600/10 hover:bg-blue-600/20 transition-colors mx-3 shrink-0 border-2 border-black dark:border-white"
                 title={t.swapLanguages}
               >
                 <ArrowRightLeft className="w-[18px] h-[18px]" />
@@ -221,13 +212,13 @@ export default function App() {
             </div>
 
             {/* Translate Button Strip */}
-            <div className="flex justify-end px-5 py-3 border-b border-black/[0.04] dark:border-white/[0.08] bg-black/[0.01] dark:bg-white/[0.01]">
+            <div className="flex justify-end px-5 py-3 border-b-2 border-black dark:border-white bg-white dark:bg-black">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleTranslate}
                 disabled={isTranslating || !inputText.trim()}
-                className="glow-btn inline-flex items-center justify-center gap-2 px-7 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 disabled:from-blue-400 disabled:to-cyan-300 disabled:cursor-not-allowed text-white font-medium rounded-xl shadow-lg shadow-blue-500/25 transition-all w-full sm:w-auto"
+                className="brutal-btn inline-flex items-center justify-center gap-2 px-7 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-300 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0 text-white font-medium w-full sm:w-auto"
               >
                 {isTranslating ? (
                   <>
@@ -261,7 +252,7 @@ export default function App() {
             <div className="flex flex-col md:flex-row flex-1 min-h-[420px]">
               
               {/* --- Input Area --- */}
-              <div className="flex-1 flex flex-col p-6 border-b md:border-b-0 md:border-r border-black/[0.04] dark:border-white/[0.08] relative group">
+              <div className="flex-1 flex flex-col p-6 border-b-2 md:border-b-0 md:border-r-2 border-black dark:border-white relative group">
                 <textarea
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
@@ -279,7 +270,7 @@ export default function App() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setInputText('')}
-                      className="absolute bottom-5 right-5 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-white/70 hover:bg-white dark:bg-black/30 dark:hover:bg-black/50 rounded-xl shadow-sm transition-colors flex items-center opacity-0 group-hover:opacity-100"
+                      className="absolute bottom-5 right-5 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-white dark:bg-black border-2 border-black dark:border-white transition-colors flex items-center opacity-0 group-hover:opacity-100"
                     >
                       <X className="w-4 h-4" />
                       <span className="text-xs font-medium px-1.5">{t.clear}</span>
@@ -290,7 +281,7 @@ export default function App() {
 
               {/* --- Output Area --- */}
               {/* Very subtle background change to differentiate source and target */}
-              <div className="flex-1 flex flex-col p-6 bg-blue-50/10 dark:bg-blue-900/[0.02] relative group">
+              <div className="flex-1 flex flex-col p-6 bg-white dark:bg-black relative group">
                 {isTranslating && (
                   <div className="absolute top-6 right-6">
                     <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
@@ -316,7 +307,7 @@ export default function App() {
                     whileTap={{ scale: outputText ? 0.95 : 1 }}
                     onClick={handleCopy}
                     disabled={!outputText}
-                    className="flex items-center gap-1.5 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-white/60 dark:hover:bg-black/30 rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed group-hover:opacity-100 opacity-60"
+                    className="flex items-center gap-1.5 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100 border-2 border-transparent hover:border-black dark:hover:border-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed opacity-60"
                     title={t.copy}
                   >
                     {copied ? (

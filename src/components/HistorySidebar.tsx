@@ -45,14 +45,14 @@ export const HistorySidebar = memo(function HistorySidebar({ isOpen, onClose, hi
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="vellum fixed right-0 top-0 bottom-0 w-full max-w-sm border-l-0 rounded-l-3xl rounded-r-none z-50 flex flex-col"
+            className="brutal-panel fixed right-0 top-0 bottom-0 w-full max-w-sm z-50 flex flex-col bg-white dark:bg-black"
           >
-            <div className="flex items-center justify-between p-6 border-b border-black/5 dark:border-white/10">
+            <div className="flex items-center justify-between p-6 border-b-2 border-black dark:border-white">
               <div className="flex items-center gap-2 text-gray-800 dark:text-gray-100">
                 <Clock className="w-5 h-5" />
                 <h2 className="text-xl font-semibold">{t.history}</h2>
               </div>
-              <button onClick={onClose} className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors">
+              <button onClick={onClose} className="p-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
                 <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               </button>
             </div>
@@ -68,7 +68,7 @@ export const HistorySidebar = memo(function HistorySidebar({ isOpen, onClose, hi
                   <button
                     key={item.id}
                     onClick={() => onRestore(item)}
-                    className="w-full text-left p-4 bg-white/50 dark:bg-black/20 hover:bg-white/80 dark:hover:bg-black/40 border border-white/60 dark:border-white/10 rounded-2xl shadow-sm transition-all group"
+                    className="w-full text-left p-4 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 border-2 border-black dark:border-white transition-all group"
                   >
                     <div className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
                       <span>{getLangName(item.sourceLang)}</span>
@@ -83,10 +83,10 @@ export const HistorySidebar = memo(function HistorySidebar({ isOpen, onClose, hi
             </div>
 
             {history.length > 0 && (
-              <div className="p-4 border-t border-black/5 dark:border-white/10">
+              <div className="p-4 border-t-2 border-black dark:border-white">
                 <button
                   onClick={onClear}
-                  className="w-full flex items-center justify-center gap-2 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-colors font-medium"
+                  className="w-full flex items-center justify-center gap-2 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 border-2 border-red-600 dark:border-red-400 transition-colors font-medium"
                 >
                   <Trash2 className="w-4 h-4" />
                   {t.clearHistory}

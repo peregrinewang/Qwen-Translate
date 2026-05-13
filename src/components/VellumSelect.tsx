@@ -36,7 +36,7 @@ export function VellumSelect({ value, onChange, options, className = '', buttonC
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between gap-2 vellum-sm font-medium rounded-xl hover:bg-black/[0.03] dark:hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-colors w-full ${buttonClassName}`}
+        className={`flex items-center justify-between gap-2 font-medium border-2 border-black dark:border-white bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/60 transition-colors w-full ${buttonClassName}`}
       >
         <span className="truncate">{selectedLabel}</span>
         <ChevronDown className={`w-4 h-4 opacity-70 transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
@@ -49,7 +49,7 @@ export function VellumSelect({ value, onChange, options, className = '', buttonC
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute z-[100] w-full min-w-max mt-2 vellum flex flex-col p-2.5 top-full left-0 max-h-64 overflow-y-auto shadow-2xl"
+            className="absolute z-[100] w-full min-w-max mt-2 brutal-panel flex flex-col p-2.5 top-full left-0 max-h-64 overflow-y-auto bg-white dark:bg-black"
           >
             {options.map((opt) => (
               <button
@@ -59,10 +59,10 @@ export function VellumSelect({ value, onChange, options, className = '', buttonC
                   onChange(opt.value);
                   setIsOpen(false);
                 }}
-                className={`text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors w-full mb-1 last:mb-0 ${
+                className={`text-left px-3.5 py-2.5 text-sm font-medium transition-colors w-full mb-1 last:mb-0 border-2 ${
                   opt.value === value 
-                    ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' 
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10'
+                    ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-black dark:border-white' 
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 border-transparent'
                 }`}
               >
                 {opt.label}

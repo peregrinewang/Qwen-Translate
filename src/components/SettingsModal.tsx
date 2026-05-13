@@ -58,13 +58,13 @@ export const SettingsModal = memo(function SettingsModal({
 
   /* Shared input class string */
   const inputCls =
-    'w-full min-w-0 px-4 py-3 bg-white/50 dark:bg-white/5 border border-black/8 dark:border-white/10 rounded-2xl ' +
-    'focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400/60 ' +
+    'w-full min-w-0 px-4 py-3 bg-white dark:bg-black border-2 border-black dark:border-white ' +
+    'focus:outline-none focus:ring-2 focus:ring-blue-500/60 ' +
     'transition-all text-gray-900 dark:text-gray-100 text-sm placeholder-gray-400 dark:placeholder-gray-500';
 
   const smallInputCls =
-    'flex-1 min-w-0 px-3.5 py-2.5 bg-white/50 dark:bg-white/5 border border-black/8 dark:border-white/10 rounded-xl ' +
-    'focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400/60 ' +
+    'flex-1 min-w-0 px-3.5 py-2.5 bg-white dark:bg-black border-2 border-black dark:border-white ' +
+    'focus:outline-none focus:ring-2 focus:ring-blue-500/60 ' +
     'transition-all text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500';
 
   return (
@@ -78,7 +78,7 @@ export const SettingsModal = memo(function SettingsModal({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/25 dark:bg-black/50 z-40"
+            className="fixed inset-0 bg-black/40 dark:bg-black/70 z-40"
           />
 
           {/* Modal */}
@@ -87,12 +87,12 @@ export const SettingsModal = memo(function SettingsModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 24 }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-            className="vellum fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-2xl z-50 flex flex-col max-h-[85vh]"
+            className="brutal-panel fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-2xl z-50 flex flex-col max-h-[85vh] bg-white dark:bg-black"
           >
             {/* ── Header ── */}
             <div className="flex items-center justify-between px-7 pt-6 pb-4 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-md shadow-blue-500/20 flex items-center justify-center">
+                <div className="w-9 h-9 bg-blue-600 border-2 border-black dark:border-white flex items-center justify-center">
                   <Settings2 className="w-[18px] h-[18px] text-white" />
                 </div>
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 tracking-tight">
@@ -103,14 +103,14 @@ export const SettingsModal = memo(function SettingsModal({
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors"
+                className="p-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
               </motion.button>
             </div>
 
             {/* ── Tab Bar ── */}
-            <div className="flex gap-1.5 mx-7 mb-1 p-1 bg-black/[0.03] dark:bg-white/[0.04] rounded-2xl shrink-0">
+            <div className="flex gap-1.5 mx-7 mb-1 p-1 bg-black/[0.03] dark:bg-white/[0.04] shrink-0">
               {(['general', 'glossary', 'memory', 'domain'] as Tab[]).map((tab) => {
                 const Icon = tabMeta[tab].icon;
                 const isActive = activeTab === tab;
@@ -118,10 +118,10 @@ export const SettingsModal = memo(function SettingsModal({
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`relative flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                    className={`relative flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 text-sm font-medium transition-all duration-200 whitespace-nowrap border-2 ${
                       isActive
-                        ? 'bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 shadow-sm'
-                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-black/[0.03] dark:hover:bg-white/[0.04]'
+                        ? 'bg-white dark:bg-black text-blue-600 dark:text-blue-400 border-black dark:border-white'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 border-transparent'
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
@@ -226,14 +226,14 @@ export const SettingsModal = memo(function SettingsModal({
                           whileHover={{ scale: 1.04 }}
                           whileTap={{ scale: 0.96 }}
                           onClick={addTerm}
-                          className="flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-500/10 px-3.5 py-2 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors shrink-0"
+                          className="flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-500/10 px-3.5 py-2 border-2 border-black dark:border-white hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors shrink-0"
                         >
                           <Plus className="w-4 h-4" /> {t.addTerm}
                         </motion.button>
                       </div>
 
                       {terms.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-12 text-gray-300 dark:text-gray-600 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl">
+                        <div className="flex flex-col items-center justify-center py-12 text-gray-300 dark:text-gray-600 border-2 border-dashed border-gray-300 dark:border-gray-600">
                           <BookOpen className="w-10 h-10 mb-3 opacity-50" />
                           <p className="text-sm">{t.noTerms}</p>
                         </div>
@@ -266,7 +266,7 @@ export const SettingsModal = memo(function SettingsModal({
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => removeTerm(index)}
-                                className="p-2 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors shrink-0"
+                                className="p-2 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors shrink-0"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </motion.button>
@@ -288,14 +288,14 @@ export const SettingsModal = memo(function SettingsModal({
                           whileHover={{ scale: 1.04 }}
                           whileTap={{ scale: 0.96 }}
                           onClick={addTm}
-                          className="flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-500/10 px-3.5 py-2 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors shrink-0"
+                          className="flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-500/10 px-3.5 py-2 border-2 border-black dark:border-white hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors shrink-0"
                         >
                           <Plus className="w-4 h-4" /> {t.addPair}
                         </motion.button>
                       </div>
 
                       {tmList.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-12 text-gray-300 dark:text-gray-600 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl">
+                        <div className="flex flex-col items-center justify-center py-12 text-gray-300 dark:text-gray-600 border-2 border-dashed border-gray-300 dark:border-gray-600">
                           <Brain className="w-10 h-10 mb-3 opacity-50" />
                           <p className="text-sm">{t.noMemory}</p>
                         </div>
@@ -307,7 +307,7 @@ export const SettingsModal = memo(function SettingsModal({
                               layout
                               initial={{ opacity: 0, y: 8 }}
                               animate={{ opacity: 1, y: 0 }}
-                              className="flex gap-3 items-start bg-black/[0.03] dark:bg-white/[0.04] p-4 rounded-2xl"
+                              className="flex gap-3 items-start bg-black/[0.03] dark:bg-white/[0.04] p-4 border-2 border-black dark:border-white"
                             >
                               <div className="flex-1 min-w-0 space-y-2.5">
                                 <textarea
@@ -327,7 +327,7 @@ export const SettingsModal = memo(function SettingsModal({
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => removeTm(index)}
-                                className="p-2 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors shrink-0 mt-1"
+                                className="p-2 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors shrink-0 mt-1"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </motion.button>
@@ -345,7 +345,7 @@ export const SettingsModal = memo(function SettingsModal({
                         <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
                           {t.domainHelp}
                         </p>
-                        <div className="flex items-start gap-2 px-3.5 py-2.5 bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 dark:border-amber-500/20 rounded-xl">
+                        <div className="flex items-start gap-2 px-3.5 py-2.5 bg-amber-50 dark:bg-amber-500/10 border-2 border-amber-300 dark:border-amber-500/40">
                           <Globe className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
                           <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
                             {t.domainNote}
@@ -366,12 +366,12 @@ export const SettingsModal = memo(function SettingsModal({
             </div>
 
             {/* ── Footer ── */}
-            <div className="px-7 pb-6 pt-4 border-t border-black/5 dark:border-white/[0.06] flex justify-end shrink-0">
+            <div className="px-7 pb-6 pt-4 border-t-2 border-black dark:border-white flex justify-end shrink-0">
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={onClose}
-                className="glow-btn px-7 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-medium rounded-xl shadow-lg shadow-blue-500/25 transition-all"
+                className="brutal-btn px-7 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium"
               >
                 {t.done}
               </motion.button>
